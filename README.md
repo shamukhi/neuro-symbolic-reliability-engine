@@ -59,6 +59,41 @@ FEVER Dataset (185K claims)
 - 3 epochs with early stopping (patience 2), mixed precision (FP16)
 - Trained/evaluated on a stratified sample (30K train / 5K val) of the full FEVER set for tractability on limited GPU resources; the full corpus (145K claims) is supported by the same pipeline
 
+## Results
+
+Trained on a stratified sample of 30,000 FEVER training claims (3 epochs, RoBERTa-base, T4 GPU, ~27 min runtime):
+
+**Final validation metrics (Trainer eval, 4,998 examples):**
+
+| Metric | Value |
+|---|---|
+| Loss | 0.7992 |
+| Accuracy | 0.6773 |
+| F1 (macro) | 0.6775 |
+
+**Held-out classification report (4,032 samples):**
+
+| Class | Precision | Recall | F1 | Support |
+|---|---|---|---|---|
+| SUPPORTS | 0.7426 | 0.6757 | 0.7076 | 1,699 |
+| REFUTES | 0.7460 | 0.7603 | 0.7531 | 1,402 |
+| NOT ENOUGH INFO | 0.5241 | 0.5951 | 0.5573 | 931 |
+| **Accuracy** | | | **0.6865** | 4,032 |
+| **Macro avg** | 0.6709 | 0.6770 | 0.6727 | 4,032 |
+
+**Knowledge base:** 61 curated seed facts + 386 auto-mined from FEVER SUPPORTS claims → 447 entries total; RDF graph with 820 triples.
+
+**End-to-end pipeline demo (reliability scoring):**
+
+| Input | Score | Label |
+|---|---|---|
+| Factually correct text (Paris/France, Einstein/Germany) | 0.63 | 🟠 Partially Reliable |
+| Hallucinated text (Paris/Germany, Einstein/Australia) | 0.00 | 🔴 Unreliable |
+| Mixed reliability text | 0.55 | 🟠 Partially Reliable |
+| Unverifiable/fabricated entities | 0.45 | 🟠 Partially Reliable |
+
+These numbers are from a single training run on a subsampled dataset for tractability on a Colab T4 GPU, accuracy is expected to improve with the full 145K claim training set and more epochs. NOT ENOUGH INFO is the hardest class to separate, which matches known FEVER difficulty patterns (it requires the absence of evidence rather than a contradicting fact).
+
 ## Getting Started
 
 This project is packaged as a single Jupyter/Colab notebook (`Neuro_Symbolic_LLM_Reliability_Engine_Final.ipynb`) designed to run top-to-bottom on Google Colab (GPU runtime recommended).
