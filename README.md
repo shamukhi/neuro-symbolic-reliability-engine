@@ -1,12 +1,12 @@
 ## Neuro-Symbolic LLM Reliability Engine
 
-A hybrid fact-verification system that combines a fine-tuned transformer with a symbolic knowledge base and rule engine to score the factual reliability of text claims — from raw data through to a deployable FastAPI backend.
+A hybrid fact-verification system that combines a fine-tuned transformer with a symbolic knowledge base and rule engine to score the factual reliability of text claims from raw data through to a deployable FastAPI backend.
 
 Overview
 
 This project builds an end-to-end pipeline that takes free text, extracts factual claims from it, and produces a **reliability score (0–1)** by cross-checking those claims against both a neural fact-verification model and a symbolic knowledge base. The neuro-symbolic design means claims aren't just classified by a black-box model — they're also checked against explicit, inspectable logic rules, which makes contradictions and unsupported claims easier to explain than a pure ML approach would allow.
 
-**Author:** Kommera Shanmukhi — IFHE University, Faculty of Science & Technology
+**Author:** Kommera Shanmukhi IFHE University, Faculty of Science & Technology
 
 ## Pipeline
 
@@ -71,7 +71,7 @@ This project is packaged as a single Jupyter/Colab notebook (`Neuro_Symbolic_LLM
 ## Example
 
 **Input:** `"Paris is the capital of Germany. Einstein was born in Australia."`
-**Output:** 🔴 Unreliable — both claims contradict the knowledge base (verified capital and birthplace facts).
+**Output:** 🔴 Unreliable: both claims contradict the knowledge base (verified capital and birthplace facts).
 
 ## Notes
 
